@@ -35,25 +35,26 @@ class HexDump(gdb.Command):
 
         inferior = gdb.selected_inferior()
 
-        align : int = gdb.parameter('xxd-align')
-        width : int = gdb.parameter('xxd-width')
+        align = int(gdb.parameter('xxd-align'))
+        width = int(gdb.parameter('xxd-width'))
         if width == 0:
             width = 16
 
         mem = inferior.read_memory(addr, bytes)
-        pr_addr : int = int(str(addr).split()[0], 16)
-        pr_offset : int = width
+        pr_addr = int(str(addr).split()[0], 16)
+        pr_offset = width
 
         if align:
             pr_offset = width - (pr_addr % width)
             pr_addr -= pr_addr % width
 
         for group in groups_of(mem, width, pr_offset):
-            print('0x%x: ' % (pr_addr,) + '   '*(width - pr_offset), end='')
-            print(' '.join(['%02X' % (ord(g),) for g in group]) + \
-                '   ' * (width - len(group) if pr_offset == width else 0) + ' ', end='')
-            print(' '*(width - pr_offset) +  ''.join(
-                [chr(g) if isgraph(g) or g == ' ' else '.' for g in map(ord, group)]))
+            line='0x%x: ' % (pr_addr,) + '   '*(width - pr_offset)
+            line+=' '.join(['%02X' % (ord(g),) for g in group]) + \
+                '   ' * (width - len(group) if pr_offset == width else 0) + ' '
+            line+=' '*(width - pr_offset) +  ''.join(
+                [chr(g) if isgraph(g) or g == ' ' else '.' for g in map(ord, group)])
+            print(line)
             pr_addr += width
             pr_offset = width
 

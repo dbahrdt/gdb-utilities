@@ -35,14 +35,14 @@ class HexDump(gdb.Command):
 
         inferior = gdb.selected_inferior()
 
-        align = gdb.parameter('xxd-align')
-        width = gdb.parameter('xxd-width')
+        align : int = gdb.parameter('xxd-align')
+        width : int = gdb.parameter('xxd-width')
         if width == 0:
             width = 16
 
         mem = inferior.read_memory(addr, bytes)
-        pr_addr = int(str(addr), 16)
-        pr_offset = width
+        pr_addr : int = int(str(addr).split()[0], 16)
+        pr_offset : int = width
 
         if align:
             pr_offset = width - (pr_addr % width)
@@ -53,7 +53,7 @@ class HexDump(gdb.Command):
             print(' '.join(['%02X' % (ord(g),) for g in group]) + \
                 '   ' * (width - len(group) if pr_offset == width else 0) + ' ', end='')
             print(' '*(width - pr_offset) +  ''.join(
-                [g if isgraph(g) or g == ' ' else '.' for g in map(ord, group)]))
+                [chr(g) if isgraph(g) or g == ' ' else '.' for g in map(ord, group)]))
             pr_addr += width
             pr_offset = width
 

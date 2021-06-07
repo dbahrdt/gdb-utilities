@@ -3,7 +3,7 @@ python
 import sys
 from gdb.printing import register_pretty_printer
 
-sys.path.insert(0, '/path/to/gdb-utilities/')
+sys.path.insert(0, '/home/eltako/.bin/repo/gdb-utilities')
 
 import my_pp
 register_pretty_printer(gdb.current_objfile(), my_pp.netinet_pp())

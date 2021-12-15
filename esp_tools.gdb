@@ -7,7 +7,7 @@ end
 define esp_reboot_to_main
 	mon reset halt
 	flushregs
-	tbh app_main
+	thb app_main
 	c
 end
 

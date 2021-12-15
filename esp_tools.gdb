@@ -1,3 +1,6 @@
+define esp_connect
+	target remote :3333
+
 define esp_reboot
 	mon reset halt
 	flushregs

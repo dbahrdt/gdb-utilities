@@ -14,8 +14,40 @@ version is sometimes installed by default):
 ```
 apt install gdb
 ```
+Put the following in your .gdbinit:
 
-Just copy dot.gdbinit as your ~/.gdbinit
+```gdb
+define esp_source_scripts
+source path/to/gdb-utilities/esp_tools.gdb
+source path/to/gdb-utilities/stackfuncs.gdb
+source path/to/gdb-utilities/dot.gdbinit
+end
+```
+
+## Usage with cgdb
+
+Define an alias that uses the correct gdb:
+
+```bash
+alias esp-cgdb='/usr/bin/cgdb -d xtensa-esp32-elf-gdb'
+```
+
+You can then use it as follows:
+
+```bash
+# First console
+idf.py monitor openocd
+#Second console
+esp-cgdb path/to/build/projectname.elf
+```
+
+Within openocd:
+
+```bash
+esp_source_scripts
+esp_connect
+esp_reboot_to_main
+```
 
 ## Sources
 

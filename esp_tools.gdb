@@ -15,6 +15,24 @@ define esp_reboot_to_main
 	c
 end
 
+define esp_flash_app
+	if $argc != 2
+		printf "Usage: esp_flash_app <path to file> <offset>
+	else
+		mon reset halt
+		mon program_esp $arg0 $arg1 verify
+		symbol-file
+		printf "Cleared symbols"
+		esp_reboot
+end
+
+document esp_flash
+Usage: esp_flash_app <path to file> <offset>
+
+Flash new app file.
+
+end
+
 define esp_heap_trace
     thb heap_trace_start
     c

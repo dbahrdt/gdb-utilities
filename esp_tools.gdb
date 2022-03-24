@@ -1,5 +1,6 @@
 define esp_connect
 	target remote :3333
+end
 
 define esp_reboot
 	mon reset halt
